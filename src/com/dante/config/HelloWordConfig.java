@@ -13,9 +13,17 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @Configuration
-@ComponentScan(basePackages = "com.dante")
 @EnableWebMvc
-public class HelloWordConfig {
+@ComponentScan(basePackages = "com.dante")
+public class HelloWordConfig extends WebMvcConfigurerAdapter {
+
+//	use for Jboss
+// extends WebMvcConfigurerAdapter 
+//	@Override
+//	public void configureDefaultServletHandling(
+//			DefaultServletHandlerConfigurer configurer) {
+//		configurer.enable();
+//	}
 
 	@Bean
 	public ViewResolver viewResolver() {
@@ -23,7 +31,6 @@ public class HelloWordConfig {
 		viewResolver.setViewClass(JstlView.class);
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
-
 		return viewResolver;
 	}
 }
