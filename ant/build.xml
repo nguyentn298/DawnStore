@@ -1,34 +1,49 @@
 <?xml version="1.0" ?> 
-<project name="Dawn" default="war">
-
+<project name="Dawn" default="deploy">
+	
+	<property file="build.properties" />
+	<property name="src.dir" value="../src" />
+	<property name="ant.dir" value="../ant" />
+	<property name="lib.dir" value="../lib" />
+	<property name="dist.dir" value="../dist"/>
+	<property name="build.dir" value="../build" />
+	<property name="build.classes.dir" value="${build.dir}/classes" />
+	
+	<property name="web.dir" value="../web" />
+	
 	<path id="compile.classpath">
-		<fileset dir="WebContent/WEB-INF/lib">
+		<fileset dir="${web.dir}/WEB-INF/lib">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
 	
-	<target name="init">
-		<mkdir dir="build/classes"/>
-		<mkdir dir="dist" />
+	<target name="clean">
+		<delete dir="${dist.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+		
+	<target name="init" depends="clean">
+		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${dist.dir}" />
 	</target>
 	
 	<target name="compile" depends="init" >
-		<javac destdir="build/classes" debug="true" srcdir="src">
+		<javac destdir="${build.classes.dir}" debug="true" srcdir="${src.dir}">
 			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
 	
 	<target name="war" depends="compile">
-		<war destfile="dist/Dawn.war">
-			<fileset dir="WebContent"/>
-			<lib dir="WebContent/WEB-INF/lib"/>
-			<classes dir="build/classes"/>
+		<war destfile="${dist.dir}/Dawn.war" needxmlfile='false'>
+			<fileset dir="${web.dir}"/>
+			<lib dir="${web.dir}/WEB-INF/lib"/>
+			<classes dir="${build.classes.dir}"/>
 		</war>
 	</target>
 	
-	<target name="clean">
-		<delete dir="dist" />
-		<delete dir="build" />
+	<target name="deploy" depends="war" description="Deploy war file to ${deploy.folder}">
+		<delete dir="${deploy.folder}/${project.name}.war" />
+		<copy todir="${deploy.folder}"  file="${dist.dir}/${project.name}.war" />
 	</target>
-	
+
 </project>
