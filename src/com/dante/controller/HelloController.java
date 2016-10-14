@@ -1,14 +1,22 @@
 package com.dante.controller;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.dante.db.entity.Product;
+import com.dante.db.repository.ProductRepository;
 
 @Controller
 public class HelloController {
+	
+	@Autowired
+	private ProductRepository productRepository;
 	
 	private static final Logger logger = Logger.getLogger(HelloController.class);
 
@@ -39,6 +47,26 @@ public class HelloController {
 	public ModelAndView getForm1(Model model) {
 		model.addAttribute("test123", "This is my test with model map 123 my String2");
 		return new ModelAndView("view");
+	}
+	
+	@RequestMapping(value = "productSearch", method = RequestMethod.GET)
+	public String searchProduct2() {
+		
+		return "product";
+	}
+	
+	@RequestMapping(value = "productDetail", method = RequestMethod.POST)
+	public String searchProduct3(Model model, @RequestParam("id") int id) {
+		
+//		int productId = (int) id;
+		
+		Product product = productRepository.findByProductId(id);
+		
+		model.addAttribute("productId", product.getProductId());
+		model.addAttribute("productName", product.getProductName());
+		model.addAttribute("productQuantity", product.getProductQuantity());
+		
+		return "product";
 	}
 
 }

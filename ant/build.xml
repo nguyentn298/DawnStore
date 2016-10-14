@@ -28,10 +28,13 @@
 	</target>
 
 	<target name="compile" depends="init">
+		<echo>Compiling now... </echo >
 		<javac destdir="${build.classes.dir}" debug="true" srcdir="${src.dir}">
 			<!-- Add lib, it's "Import" on java class -->
 			<classpath refid="compile.classpath" />
 		</javac>
+		<echo>Compilation successful! </echo >
+
 		<copy todir="${build.classes.dir}">
 			<fileset dir="${src.dir}" excludes="**/*.java" />
 		</copy>
@@ -39,13 +42,13 @@
 
 	<target name="war" depends="compile">
 		<war destfile="${dist.dir}/Dawn.war" needxmlfile='false'>
-			
+
 			<!-- Get js, css, Image -->
 			<fileset dir="${web.dir}" />
-			
+
 			<!-- Lib -->
 			<lib dir="${web.dir}/WEB-INF/lib" />
-			
+
 			<!-- Get compiled classes from folder build/classes -->
 			<classes dir="${build.classes.dir}" />
 		</war>
