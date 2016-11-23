@@ -6,5 +6,6 @@ public class TestDAO {
 		System.out.println("Test ti do ma 222");
 		System.out.println("Test ti do ma 333");
 		System.out.println("Test ti do ma 444");
+		String Test = "UPDATE export_group SET ";
 	}
 }

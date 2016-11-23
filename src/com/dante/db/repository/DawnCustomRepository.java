@@ -22,6 +22,8 @@ import com.dante.db.BaseCustomRepository;
 public class DawnCustomRepository<E, K extends Serializable> extends BaseCustomRepository<E, K> {
 //	protected final Log log = LogFactory.getLog(getClass());
 
+	// Get EntityManagerFactory from DawnPersistenceConfig.java
+	// set EntityManager on BaseCustomRepository.java
 	@PersistenceContext(unitName="ideaEntityManagerFactory")
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;

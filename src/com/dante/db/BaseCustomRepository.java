@@ -17,7 +17,6 @@ import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Contains common methods for every DAO
  * 
@@ -27,15 +26,21 @@ import org.slf4j.LoggerFactory;
  * @param <E>
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class BaseCustomRepository<E, K extends Serializable> implements IBaseRepository<E, K> {
+public abstract class BaseCustomRepository<E, K extends Serializable>
+		implements IBaseRepository<E, K> {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 
+	// Declare Generic Object
+	// to declare generic <T> object you need to provide to Java Class<T> object,
+	// Java will be declared <T> object at runtime by Java Reflection.
 	protected Class<E> entityClass;
 
 	protected EntityManager entityManager;
 
 	public abstract void setEntityManager(EntityManager entityManager);
 
+	// Get EntityManager from @PersistenceContext(unitName="ideaEntityManagerFactory")
+	// on DawnCustomRepository
 	public EntityManager getEntityManager() {
 		return this.entityManager;
 	}
@@ -44,15 +49,17 @@ public abstract class BaseCustomRepository<E, K extends Serializable> implements
 		Type type = getClass().getGenericSuperclass();
 		if (type instanceof ParameterizedType) {
 			ParameterizedType genericSuperclass = (ParameterizedType) type;
-			this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[0];
+			this.entityClass = (Class<E>) genericSuperclass
+					.getActualTypeArguments()[0];
 		}
 	}
 
 	public E findFirstRow() {
 		E obj = null;
 		try {
-			obj = (E) entityManager.createQuery("from " + entityClass.getName() + ")").setMaxResults(1)
-					.getSingleResult();
+			obj = (E) entityManager
+					.createQuery("from " + entityClass.getName() + ")")
+					.setMaxResults(1).getSingleResult();
 		} catch (NoResultException e) {
 			// empty catch;
 		}
@@ -87,21 +94,24 @@ public abstract class BaseCustomRepository<E, K extends Serializable> implements
 
 	@Override
 	public List<E> findAllItems() {
-		Object result = entityManager.createQuery("from " + entityClass.getName())
-				.getResultList();
+		Object result = entityManager.createQuery(
+				"from " + entityClass.getName()).getResultList();
 		return (List<E>) result;
 	}
-	
+
 	@Override
-	public List<E> findAllWithOrderColumn(final String orderColumnName, final String orderDirection) {
+	public List<E> findAllWithOrderColumn(final String orderColumnName,
+			final String orderDirection) {
 		Object result = entityManager.createQuery(
-				"SELECT e FROM " + entityClass.getName() + " e ORDER BY e." + orderColumnName + " " + orderDirection)
+				"SELECT e FROM " + entityClass.getName() + " e ORDER BY e."
+						+ orderColumnName + " " + orderDirection)
 				.getResultList();
 		return (List<E>) result;
 	}
 
 	/**
-	 * This method is used to execute native SQL query "SELECT * FROM TABLE_NAME WHERE COLUMN_NAME = ?"
+	 * This method is used to execute native SQL query
+	 * "SELECT * FROM TABLE_NAME WHERE COLUMN_NAME = ?"
 	 * 
 	 * @param query
 	 * @param values
@@ -117,27 +127,27 @@ public abstract class BaseCustomRepository<E, K extends Serializable> implements
 	}
 
 	/**
-	 * This method execute native SQL query and return unique result.
-	 * Sample query: "SELECT * FROM TABLE_NAME WHERE COLUMN_NAME = ?"
-	 *  
+	 * This method execute native SQL query and return unique result. Sample
+	 * query: "SELECT * FROM TABLE_NAME WHERE COLUMN_NAME = ?"
+	 * 
 	 * @param query
 	 * @param values
 	 * @return
 	 */
 	public Map findUniqueByNativeQuery(final String query, final Object[] values) {
-		Query nativeQuery = entityManager.createNativeQuery(query); 
+		Query nativeQuery = entityManager.createNativeQuery(query);
 		for (int i = 0; i < values.length; i++) {
 			nativeQuery.setParameter(i + 1, values[i]);
 		}
 		org.hibernate.transform.ResultTransformer t;
-		nativeQuery.unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+		nativeQuery.unwrap(SQLQuery.class).setResultTransformer(
+				AliasToEntityMapResultTransformer.INSTANCE);
 		nativeQuery.setMaxResults(1);
-		
-		Map result = (Map)nativeQuery.getSingleResult();
+
+		Map result = (Map) nativeQuery.getSingleResult();
 		return result;
 	}
 
-	
 	/**
 	 * This method is used to execute Hibernate or JPA query like
 	 * "FROM WorkflowNodeMapping wfnm WHERE wfnm.workflowLookup = :workflowLookup"
@@ -191,13 +201,15 @@ public abstract class BaseCustomRepository<E, K extends Serializable> implements
 
 	public long getCurrentTimeSQL() {
 		final String query = "select SYSDATE()";
-		java.sql.Timestamp currentTS = (java.sql.Timestamp) entityManager.createNativeQuery(query).getSingleResult();
+		java.sql.Timestamp currentTS = (java.sql.Timestamp) entityManager
+				.createNativeQuery(query).getSingleResult();
 		return currentTS.getTime();
 	}
 
 	/**
-	 * Execute an update query like "DELETE FROM Employee WHERE employeeId = :employeeId" If there is no parameter, we
-	 * can pass NULL for params.
+	 * Execute an update query like
+	 * "DELETE FROM Employee WHERE employeeId = :employeeId" If there is no
+	 * parameter, we can pass NULL for params.
 	 * 
 	 * @param query
 	 * @param params
@@ -209,8 +221,9 @@ public abstract class BaseCustomRepository<E, K extends Serializable> implements
 	}
 
 	/**
-	 * Execute an update native query like "DELETE FROM table_name WHERE column = :employeeId" If there is no parameter,
-	 * we can pass NULL for params.
+	 * Execute an update native query like
+	 * "DELETE FROM table_name WHERE column = :employeeId" If there is no
+	 * parameter, we can pass NULL for params.
 	 * 
 	 * @param nativeQuery
 	 * @param params
@@ -221,7 +234,8 @@ public abstract class BaseCustomRepository<E, K extends Serializable> implements
 		return executeUpdateQuery(true, nativeQuery, params);
 	}
 
-	private int executeUpdateQuery(final boolean isNative, final String query, final Map params) {
+	private int executeUpdateQuery(final boolean isNative, final String query,
+			final Map params) {
 		Query q = null;
 		if (isNative) {
 			q = entityManager.createNativeQuery(query);
@@ -258,7 +272,7 @@ public abstract class BaseCustomRepository<E, K extends Serializable> implements
 		List result = q.getResultList();
 		return result;
 	}
-	
+
 	@Override
 	public List findObjectByQuery(final String query, final Map params) {
 		Query queryObj = entityManager.createQuery(query);
