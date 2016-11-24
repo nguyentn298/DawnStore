@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.sitemesh.builder.SiteMeshFilterBuilder;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -26,6 +27,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 		servletContext.setInitParameter(CommonConstants.SPRING_PROFILES_ACTIVE, ProfileType.WEB);
 		
+		// Create the 'root' Spring application context
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(ApplicationContext.class);
 
@@ -34,6 +36,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR);
 
 		configureSiteMeshFilter(servletContext, dispatcherTypes);
+		
+		// Manage the life-cycle of the root application context
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 		
 		Dynamic servlet = servletContext.addServlet("dispatcher",
@@ -48,6 +52,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		FilterRegistration.Dynamic sitemesh = servletContext.addFilter("sitemesh", siteMeshFilter);
 		sitemesh.addMappingForUrlPatterns(dispatcherTypes, true, "/*");
 	}
+	
+	
 	// Use for Jboss
 	// @Override
 	// public void onStartup(ServletContext servletContext) throws

@@ -68,5 +68,11 @@ public class HelloController {
 		
 		return "product";
 	}
+	
+	@RequestMapping(value="testSitemesh", method = RequestMethod.GET)
+	public String testSitemesh() {
+		return "/pages/test-sitemesh";
+		
+	}
 
 }
