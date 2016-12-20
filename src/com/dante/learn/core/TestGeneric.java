@@ -1,4 +1,4 @@
-package com.dante.test;
+package com.dante.learn.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,10 @@ public class TestGeneric {
 		System.out.println();
 	}
 
-	public static void printList(List<?> list) {
+	public static <T> void printList(List<T> list) {
 		for (Object e : list) {
 			System.out.printf("%s ", e);
+			System.out.println();
 		}
 	}
 
@@ -41,6 +42,8 @@ public class TestGeneric {
 		System.out.println("\nMang charArray bao gom:");
 		printArray(charArray); // truyen mot mang Character
 
+		System.out.println();
+		
 		System.out.println("Print List Integer");
 		printList(listInteger);
 		System.out.println("Print List String");

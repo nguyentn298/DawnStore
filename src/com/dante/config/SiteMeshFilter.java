@@ -7,7 +7,8 @@ public class SiteMeshFilter extends ConfigurableSiteMeshFilter {
 
 	@Override
 	protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
-		builder.addDecoratorPath("/*", "/WEB-INF/decorators/default.jsp").addExcludedPath("/pages/*");
+		// Get path from requestmapping of controller
+		builder.addDecoratorPath("/*", "/WEB-INF/decorators/default.jsp").addExcludedPath("/pages/*").addExcludedPath("/resources/*");
 	}
 
 }

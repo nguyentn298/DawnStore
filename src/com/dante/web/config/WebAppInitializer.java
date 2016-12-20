@@ -8,7 +8,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
-import org.sitemesh.builder.SiteMeshFilterBuilder;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -21,6 +20,11 @@ import com.dante.config.SiteMeshFilter;
 
 public class WebAppInitializer implements WebApplicationInitializer {
 
+	private static final String RESTEASY_SERVLET_NAME = "Resteasy";
+	private static final String RESTEASY_SERVLET_MAPPING = "/webservices/*";
+	private static final String RESTEASY_SERVLET_MAPPING_PREFIX_ATTR_NAME = "resteasy.servlet.mapping.prefix";
+	private static final String RESTEASY_SERVLET_MAPPING_PREFIX_VALUE = "/webservices";
+	
 	@Override
 	public void onStartup(ServletContext servletContext)
 			throws ServletException {
@@ -53,6 +57,14 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		sitemesh.addMappingForUrlPatterns(dispatcherTypes, true, "/*");
 	}
 	
+	// Test config WS
+//	private void configureResteasyServlet(ServletContext servletContext, WebApplicationContext rootContext) {
+//		RestEasyWSServlet resteasyServlet = new RestEasyWSServlet(rootContext);
+//		ServletRegistration.Dynamic dispatcher = servletContext.addServlet(RESTEASY_SERVLET_NAME, resteasyServlet);
+//		dispatcher.setInitParameter(THROW_EXCEPTION_IF_NO_HANDLER_FOUND, "true");
+//		dispatcher.setLoadOnStartup(2);
+//		dispatcher.addMapping(RESTEASY_SERVLET_MAPPING);
+//	}
 	
 	// Use for Jboss
 	// @Override

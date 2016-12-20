@@ -1,4 +1,4 @@
-package com.dante.test;
+package com.dante.learn;
 
 public class TestDAO {
 	public static void main(String[] args) {

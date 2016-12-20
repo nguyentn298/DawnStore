@@ -1,4 +1,4 @@
-package com.dante.test;
+package com.dante.learn.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;

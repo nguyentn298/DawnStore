@@ -69,7 +69,7 @@ public class HelloController {
 		return "product";
 	}
 	
-	@RequestMapping(value="testSitemesh", method = RequestMethod.GET)
+	@RequestMapping(value="pages/testSitemesh", method = RequestMethod.GET)
 	public String testSitemesh() {
 		return "/pages/test-sitemesh";
 		

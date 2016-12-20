@@ -1,4 +1,4 @@
-package com.dante.test;
+package com.dante.learn.core;
 
 public class TestReturn {
 	public static void main(String[] args) {

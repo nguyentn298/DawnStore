@@ -46,7 +46,11 @@ public abstract class BaseCustomRepository<E, K extends Serializable>
 	}
 
 	public BaseCustomRepository() {
+		// Guest
+		// Get type
 		Type type = getClass().getGenericSuperclass();
+		
+		// check type
 		if (type instanceof ParameterizedType) {
 			ParameterizedType genericSuperclass = (ParameterizedType) type;
 			this.entityClass = (Class<E>) genericSuperclass
