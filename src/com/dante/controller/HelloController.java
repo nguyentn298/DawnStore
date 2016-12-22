@@ -60,7 +60,10 @@ public class HelloController {
 		
 //		int productId = (int) id;
 		
-		Product product = productRepository.findByProductId(id);
+//		Product product = productRepository.findByProductId(id);
+		
+		// test BaseCustomRepository
+		Product product = productRepository.findFirstRow();
 		
 		model.addAttribute("productId", product.getProductId());
 		model.addAttribute("productName", product.getProductName());

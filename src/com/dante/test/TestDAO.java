@@ -30,7 +30,7 @@ public class TestDAO {
 	
 	@Test
 	public void findByProductId(int id) {
-		Product product = productRepository.findByProductId(id);
+		Product product = productRepository.findByProductId(1);
 		System.out.println("id: " + product.getProductId());
 		System.out.println("name: " + product.getProductName());
 		System.out.println("quantity: " + product.getProductQuantity());

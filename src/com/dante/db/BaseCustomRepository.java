@@ -26,8 +26,7 @@ import org.slf4j.LoggerFactory;
  * @param <E>
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public abstract class BaseCustomRepository<E, K extends Serializable>
-		implements IBaseRepository<E, K> {
+public abstract class BaseCustomRepository<E, K extends Serializable> implements IBaseRepository<E, K> {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 
 	// Declare Generic Object
@@ -53,17 +52,14 @@ public abstract class BaseCustomRepository<E, K extends Serializable>
 		// check type
 		if (type instanceof ParameterizedType) {
 			ParameterizedType genericSuperclass = (ParameterizedType) type;
-			this.entityClass = (Class<E>) genericSuperclass
-					.getActualTypeArguments()[0];
+			this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[0];
 		}
 	}
 
 	public E findFirstRow() {
 		E obj = null;
 		try {
-			obj = (E) entityManager
-					.createQuery("from " + entityClass.getName() + ")")
-					.setMaxResults(1).getSingleResult();
+			obj = (E) entityManager.createQuery("from " + entityClass.getName()).setMaxResults(1).getSingleResult();
 		} catch (NoResultException e) {
 			// empty catch;
 		}

@@ -16,7 +16,7 @@ import com.dante.constants.ConfigConstants;
 import com.dante.service.IConfigurationManager;
 
 @Configuration
-@ComponentScan(basePackages = { "com.loanlogics.dem" })
+@ComponentScan(basePackages = { "com.dante" })
 @Import({ DawnPersistenceConfig.class, ResourcesConfig.class })
 public class TestApplicationContext {
 
