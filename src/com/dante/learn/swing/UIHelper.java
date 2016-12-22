@@ -1,4 +1,4 @@
-package com.dante.learn.ui;
+package com.dante.learn.swing;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

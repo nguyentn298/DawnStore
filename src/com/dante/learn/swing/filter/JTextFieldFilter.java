@@ -1,4 +1,4 @@
-package com.dante.learn.ui.filter;
+package com.dante.learn.swing.filter;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

@@ -1,4 +1,4 @@
-package com.dante.learn.ui;
+package com.dante.learn.swing;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;

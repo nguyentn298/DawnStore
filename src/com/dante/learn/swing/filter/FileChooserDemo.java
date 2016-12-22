@@ -1,4 +1,4 @@
-package com.dante.learn.ui.filter;
+package com.dante.learn.swing.filter;
 
 import java.io.*;
 import java.awt.*;

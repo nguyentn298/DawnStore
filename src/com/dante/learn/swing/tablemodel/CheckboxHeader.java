@@ -1,4 +1,4 @@
-package com.dante.learn.ui.tablemodel;
+package com.dante.learn.swing.tablemodel;
 
 import java.awt.Component;
 import java.awt.event.ItemListener;
